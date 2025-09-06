@@ -15,7 +15,5 @@ def test_two_monitors(driver):
     homepage = HomePage(driver)
     homepage.open()
     homepage.click_monitor()
-
     time.sleep(2) # must be waiting for something happend
-    
     homepage.check_products_count(2)
