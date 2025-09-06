@@ -1,19 +1,21 @@
 from selenium.webdriver.common.by import By
 import time # isn't good for auto tests
-
+from homepage import HomePage
+from product import ProductPage
 
 def test_open_s6(driver):
-    driver.get('https://www.demoblaze.com/')
-    galaxy_s6 = driver.find_element(By.XPATH, '//a[text() = "Samsung galaxy s6"]') # XPATH
-    galaxy_s6.click()
-    title = driver.find_element(By.CSS_SELECTOR, 'h2')
-    assert title.text == 'Samsung galaxy s6' # pytest T_E/test_site.py
+    homepage = HomePage(driver)
+    homepage.open()
+    homepage.click_galaxy_s6()
+    product_page = ProductPage(driver)
+    product_page.check_title_is('Samsing galaxy s6')
 
 
 def test_two_monitors(driver):
-    driver.get('https://www.demoblaze.com/')
-    monitor_link = driver.find_element(By.CSS_SELECTOR, '''[onclick = "ByCat('monitor')"]''')
-    monitor_link.click()
+    homepage = HomePage(driver)
+    homepage.open()
+    homepage.click_monitor()
+
     time.sleep(2) # must be waiting for something happend
-    monitors = driver.find_elements(By.CSS_SELECTOR, '.card')
-    assert len(monitors) == 2
+    
+    homepage.check_products_count(2)
