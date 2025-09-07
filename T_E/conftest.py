@@ -23,3 +23,8 @@ def driver():
 # [atribute_name$="idden"] searching by end letters
 # tag.class_name or tag[atribute_name = "lalala"]
 # [class ~= "requiredField"] # find by one of the attribute values
+# we can find the element inside the parent element #div_id_text_string input(inside of div)
+# form[method='post'] _  all elements in 
+# form[method='post'] > element exactly in element 
+# form[method='post'] ~ all elements after element 
+# form[method='post'] + one element after element 
