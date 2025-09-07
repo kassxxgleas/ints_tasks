@@ -12,3 +12,14 @@ def driver():
     driver.implicitly_wait(3)
     yield driver
     # browser.close() for FireFox
+
+# CSS SELECTOR
+# #ID
+# .class_name
+# tag
+# [atribute_name] ---> [atribute_name*="idde"] searching by start letters
+# [atribute_name*="idde"] searching by sequence
+# [atribute_name^="hidd"] searching by start letters
+# [atribute_name$="idden"] searching by end letters
+# tag.class_name or tag[atribute_name = "lalala"]
+# [class ~= "requiredField"] # find by one of the attribute values
