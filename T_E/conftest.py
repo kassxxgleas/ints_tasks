@@ -28,3 +28,15 @@ def driver():
 # form[method='post'] > element exactly in element 
 # form[method='post'] ~ all elements after element 
 # form[method='post'] + one element after element 
+
+
+# XPATH LANGUAGE FOR SEARCHING HTML ELEMENTS
+#
+#
+#
+#
+#
+#
+#
+#
+#
