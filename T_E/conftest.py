@@ -31,12 +31,16 @@ def driver():
 
 
 # XPATH LANGUAGE FOR SEARCHING HTML ELEMENTS
-#
-#
-#
-#
-#
-#
-#
-#
-#
+# //li[]
+# @class ="bububu" @ before atribute for XPath
+# //*[] - любой тег с нужным класом например
+# //li[@class="tab"][1] - index якщо елементі пару а ми хочемо саме якиїсь
+# //li[contains(@class, "tab")] - по частичному сходству
+# //*[text() = "Simple Button"] - по тексту между тегами
+# //label[@class="form-check-label" and contains(text() = "BububuBebebe")] оператор И, логический
+# //a[starts-with(text(), "JD")]
+# //a[starts-with(text(), "JD")]/following::input[] после елемента след 
+# /child::tag поиск именно после елемента, в не ввложеных елементах
+# /descendant::tag находим во всех елементах дочерних вложеных
+# /ancestor::tag папу ищем дедушку и так далее
+# /parent::tag отца одного сразу выше первого
