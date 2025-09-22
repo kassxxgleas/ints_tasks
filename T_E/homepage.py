@@ -6,7 +6,7 @@ class HomePage():
         self.driver = driver
 
     def open(self):
-        self.driver.get('https://www.demoblaze.com/')
+        self.driver.get('https://www.youtube.com/')
 
     def click_galaxy_s6(self):
         galaxy_s6 = self.driver.find_element(By.XPATH, '//a[text() = "Samsung galaxy s6"]') # XPATH
