@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="screenStyle.css" />
     <meta charset="utf-8" />
     <title>Tradičné japonské sviatky a ich význam</title>
   </head>
   <body>
     <h1>Tradičné japonské sviatky a ich význam</h1>
+    <hr />
     <p>
       Sviatky zohrávajú dôležitú úlohu v kultúre Japonska, spájajúce stáročné
       tradície s modernými časmi. Odrazujú hodnoty, vierovyznania a spôsob
@@ -13,6 +15,7 @@
     </p>
 
     <h2>Setsubun — sviatok začiatku jari</h2>
+
     <p>
       Setsubun sa oslavuje 3. februára a symbolizuje začiatok jari podľa
       lunárneho kalendára. Hlavnou tradíciou je vyhadzovanie pražených fazúľ z
@@ -40,9 +43,14 @@
     </ul>
 
     <img
-      src="fig/bloom_flower.jpg"
-      alt="sakura bloom_flower photo"
-      width="368"
+      srcset="
+        fig/flower_184.jpg 184w,
+        fig/flower_276.jpg 276w,
+        fig/flower_368.jpg 368w
+      "
+      sizes="(max-width: 430px) 184px, (max-width: 820px) 276px, 368px"
+      src="fig/flower_368.jpg"
+      alt="Bloom sakura_flower image"
     />
     <!-- 
       Úloha 2: V článku (article1.html) použite responzívny obrázok,
