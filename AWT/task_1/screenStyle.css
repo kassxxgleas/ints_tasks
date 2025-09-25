@@ -3,26 +3,23 @@
 body {
   margin: 0;
   padding: 1rem;
-  font-family: "Open Sans", sans-serif;
-  background: #fffef7;
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: #fffef7;
   color: #1c1c1c;
-  line-height: 1.6;
-}
-
-svg path {
-  fill: #165e83;
 }
 
 h1,
 h2 {
-  font-family: "Noto Sans JP", sans-serif;
+  font-family: "Noto Sans JP", Georgia, serif;
   color: #165e83;
   margin: 1.5rem 0 0.5rem;
 }
 
 h1 {
   font-size: 2rem;
-  border-bottom: 3px solid #f8b500;
+  border-bottom: 0.2rem solid #f8b500;
   padding-bottom: 0.25rem;
 }
 
@@ -37,7 +34,7 @@ p {
 a {
   color: #165e83;
   text-decoration: none;
-  border-bottom: 1px dotted #bdc0ba;
+  border-bottom: 0.05rem dotted #bdc0ba;
 }
 
 a:hover {
@@ -48,13 +45,82 @@ a:hover {
 ol {
   margin: 1rem 0;
   padding-left: 1.25rem;
+  list-style-type: decimal;
+  border-left: 0.1rem solid #bdc0ba;
 }
 
 li {
   margin: 0.5rem 0;
 }
 
+table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 1rem;
+}
+
+th,
+td {
+  border: 0.1rem solid #bdc0ba;
+  padding: 0.5rem;
+  text-align: left;
+}
+
 body > p:last-of-type {
   margin-top: 2rem;
   font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+  h1 {
+    font-size: 1.75rem;
+  }
+  h2 {
+    font-size: 1.25rem;
+  }
+  ol {
+    padding-left: 1rem;
+  }
+  table,
+  th,
+  td {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2 {
+    font-size: 1.125rem;
+  }
+  ol {
+    padding-left: 0.75rem;
+  }
+}
+
+ul {
+  margin: 1rem 0;
+  padding-left: 1.25rem;
+  list-style-type: disc;
+  border-left: 0.1rem solid #bdc0ba;
+}
+
+ul li {
+  margin: 0.5rem 0;
+}
+
+ul li::marker {
+  color: #1c1c1c;
 }
