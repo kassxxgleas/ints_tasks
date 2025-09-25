@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Noto+Sans+JP:wght@400;700&display=swap&subset=latin-ext");
+
+body {
+  margin: 0;
+  padding: 1rem;
+  font-family: "Open Sans", sans-serif;
+  background: #fffef7;
+  color: #1c1c1c;
+  line-height: 1.6;
+}
+
+svg path {
+  fill: #165e83;
+}
+
+h1,
+h2 {
+  font-family: "Noto Sans JP", sans-serif;
+  color: #165e83;
+  margin: 1.5rem 0 0.5rem;
+}
+
+h1 {
+  font-size: 2rem;
+  border-bottom: 3px solid #f8b500;
+  padding-bottom: 0.25rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+p {
+  margin: 1rem 0;
+}
+
+a {
+  color: #165e83;
+  text-decoration: none;
+  border-bottom: 1px dotted #bdc0ba;
+}
+
+a:hover {
+  color: #e60026;
+  border-bottom-color: #e60026;
+}
+
+ol {
+  margin: 1rem 0;
+  padding-left: 1.25rem;
+}
+
+li {
+  margin: 0.5rem 0;
+}
+
+body > p:last-of-type {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
