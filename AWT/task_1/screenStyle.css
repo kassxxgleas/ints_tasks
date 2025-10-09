@@ -55,7 +55,7 @@ header svg {
 header h1 {
   font-family: "Montserrat", Arial, sans-serif;
   font-weight: 700;
-  font-size: 2.2em;
+  font-size: 1.2em;
   letter-spacing: 2px;
   color: #ff1e00;
   margin: 0;
@@ -108,6 +108,7 @@ header h1 {
   margin-bottom: 0.4em;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.31);
 }
+
 .hero-text p {
   font-size: 1.15em;
   font-weight: 500;
@@ -241,6 +242,25 @@ main a:hover {
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.23);
   object-fit: cover;
+  transition: transform 0.2s;
+}
+
+@keyframes fadeInImg {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.gallery img {
+  animation: fadeInImg 1s ease;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
 }
 
 footer {
@@ -264,23 +284,28 @@ footer a:hover {
   color: #ffd6cb;
 }
 
-@media (max-width: 720px) {
-  .header-container {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0.8em 0.4em;
-  }
-  header h1 {
-    font-size: 1.4em;
-    margin-top: 0.3em;
-  }
-  main {
-    padding: 0 0.5em;
-  }
-  .gallery img {
-    width: 100%;
-    min-width: 160px;
-  }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  background: #191a1d;
+  color: #f5f6fa;
+  font-size: 0.98em;
+  border-radius: 5px;
+  overflow: hidden;
+}
+th,
+td {
+  border: 1px solid #28292c;
+  padding: 0.46em 0.7em;
+  text-align: left;
+}
+th {
+  background: #222327;
+  color: #ff1e00;
+}
+tr:nth-child(even) {
+  background: #202124;
 }
 
 @media (max-width: 860px) {
@@ -296,5 +321,51 @@ footer a:hover {
   }
   .info-img img {
     margin-left: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .header-container {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.4em;
+    padding: 0.5em 0.15em;
+  }
+  header svg {
+    height: 22px;
+    width: auto;
+  }
+  .main-nav {
+    margin-left: 1em;
+    flex-wrap: wrap;
+  }
+  header h1 {
+    font-size: 1em;
+  }
+  main {
+    padding: 0 0.5em;
+  }
+  .gallery img {
+    width: 100%;
+    min-width: 160px;
+  }
+  .hero-banner {
+    width: 100vw;
+  }
+  .info-block {
+    width: 90vw;
+  }
+}
+
+@media (max-width: 400px) {
+  .header-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  header svg {
+    display: none;
+  }
+  header h1 {
+    display: none;
   }
 }
