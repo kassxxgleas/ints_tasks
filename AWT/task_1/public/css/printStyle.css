@@ -54,7 +54,7 @@
     width: 100%;
     border-collapse: collapse;
     background: #fff;
-    color: #000 t;
+    color: #000;
     font-size: 11pt;
     margin-bottom: 1em;
     table-layout: auto;
@@ -66,7 +66,7 @@
   td {
     border: 1px solid #222;
     padding: 0.3em 0.7em;
-    background: #fff t;
+    background: #fff;
     color: #000;
     font-weight: normal;
     word-break: normal;
