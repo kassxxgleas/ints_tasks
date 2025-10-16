@@ -400,7 +400,7 @@ tr:nth-child(even) {
     padding: 0 0.5em;
   }
   .gallery img {
-    width: 100%;
+    width: 90%;
     min-width: 160px;
   }
   .hero-banner {
