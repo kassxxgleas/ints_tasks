@@ -404,7 +404,7 @@ tr:nth-child(even) {
     min-width: 160px;
   }
   .hero-banner {
-    width: 100vw;
+    width: 100%;
   }
 }
 
