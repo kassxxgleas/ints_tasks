@@ -2,7 +2,7 @@
 
 ## Úvod
 
-Tento projekt porovnáva rôzne **greedy (hladové) heurístiky** na dvoch klasických optimalizačných problémoch:
+Tento projekt porovnáva rôzne **greedy heurístiky** na dvoch klasických optimalizačných problémoch:
 - **Interval Scheduling**: Výber maximálneho počtu nezapadajúcich aktivít
 - **Coin Change Problem**: Minimalizácia počtu mincí na daný obnos
 
@@ -10,24 +10,11 @@ Cieľom je demonštrovať, že greedy algoritmy nie sú vždy optimálne a že v
 
 ---
 
-## Štruktúra Projektu
-
-```
-├── Activity class          # Dátová štruktúra pre aktivity
-├── Interval Scheduling     # 4 rôzne greedy stratégie
-├── Coin Change Problem     # Greedy vs Dynamic Programming
-├── Generovanie Dát        # Testovacie dáta
-├── Experimenty             # Meranie výkonu a kvality
-└── Vizualizácia            # Grafy a analýza výsledkov
-```
-
----
-
 ## 1. INTERVAL SCHEDULING
 
 ### Problém
 
-Máme súbor aktivít s časom začatia a konca. Cieľom je vybrať **maximálny počet aktivít, ktoré sa vzájomne nezapadajú** (neprekrývajú sa).
+Máme súbor aktivít s časom začatia a konca. Cieľom je vybrať **maximálny počet aktivít, ktoré sa vzájomne neprekrývajú sa**.
 
 ### Dátová Trieda: Activity
 
@@ -38,13 +25,7 @@ class Activity:
     def __init__(self, name, start, finish):
         """
         Inicializácia aktivity.
-        
-        Args:
-            name (str): Názov aktivity (napr. "A1", "A2")
-            start (int): Čas začatia aktivity
-            finish (int): Čas ukončenia aktivity
-        
-        WHY: Ukladáme všetky informácie potrebné na manipuláciu s aktivitami.
+        : Ukladáme všetky informácie potrebné na manipuláciu s aktivitami.
         """
         self.name = name
         self.start = start
@@ -54,56 +35,29 @@ class Activity:
     def __repr__(self):
         """
         Definuje textovú reprezentáciu aktivity.
-        
-        Returns:
-            str: Formát "A1[5-10]" znamená aktivita A1 od času 5 do 10
-        
-        WHY: Umožňuje ľahšie debugovanie a výpis výsledkov na konzolu.
         """
         return f"{self.name}[{self.start}-{self.finish}]"
     
     def conflicts_with(self, other):
         """
-        Zistí, či dve aktivity sa zapadajú.
+        Zistí, či dve aktivity sa neprekrývajú.
         
-        Args:
-            other (Activity): Druhá aktivita na porovnanie
-        
-        Returns:
-            bool: True, ak sa aktivity zapadajú; False, ak sa nezapadajú
-        
-        ЛОГИКА:
             Dve aktivity sa NEZAPADAJÚ iba ak:
             - Prvá skončí pred tým, ako druhá začne: self.finish <= other.start
             - Alebo druhá skončí pred tým, ako prvá začne: other.finish <= self.start
             
             Ak ani jedno nie je pravda, zapadajú sa.
-        
-        WHY: Crucial funkcia na kontrolu kompatibility aktivít pri hľadaní riešenia.
         """
         return not (self.finish <= other.start or other.finish <= self.start)
 ```
 
-### Stratégia 1: Earliest Finish Time (EFT) - OPTIMÁLNA ✓
+### Stratégia 1: Earliest Finish Time (EFT) - OPTIMÁLNA
 
 ```python
 def interval_scheduling_earliest_finish(activities):
     """
-    GREEDY STRATÉGIA: Vyberieme aktivitu s najskorším koncom.
-    
-    ALGORITMUS:
-    1. Zoraďovanie: Aktivácie podľa času ukončenia (vzostupne)
-    2. Inicializácia: Vyberáme prvú aktivitu (s najskorším koncom)
-    3. Iterácia: Pre každú ďalšiu aktivitu:
-       - Ak sa začína po tom, čo predchádzajúca skončila → vyberáme
-       - Inak → preskakovanie (konflikt)
-    
-    WHY EARLIEST FINISH:
-        - Fyzicky oslobodzuje najmenej budúceho času pre ďalšie aktivity
-        - Greedy voľba lokálne optimálna → globálne optimálna
-        - DÔKAZ: Ak EFT nie je optimálne, možno jednotlivo meniť aktivity 
-          bez straty optimality
-    
+    - Greedy voľba lokálne optimálna → globálne optimálna
+
     ČASOVÁ KOMPLEXNOSŤ: O(n log n) - kvôli triedeniu
     PRIESTOROVÁ KOMPLEXNOSŤ: O(n) - na ukladanie vybraných aktivít
     """
@@ -130,22 +84,18 @@ def interval_scheduling_earliest_finish(activities):
 
 ---
 
-### Stratégia 2: Earliest Start Time (EST) - SUBOPTIMÁLNA ✗
+### Stratégia 2: Earliest Start Time (EST)
 
 ```python
 def interval_scheduling_earliest_start(activities):
     """
-    GREEDY STRATÉGIA: Vyberieme aktivitu, ktorá sa začína najskôr.
-    
     PREČO JE SUBOPTIMÁLNA:
         Príklad: [(1,10), (2,3), (4,5)]
         - EST: Vyberie (1,10), potom nemôže vybrať (2,3) ani (4,5) = 1 aktivita
         - EFT: Vyberie (2,3), potom (4,5) = 2 aktivity ✓
         
         Zatiaľ čo (1,10) začína skôr, blokuje veľa ďalších aktivít!
-    
-    ČOVEK BY MYSLEL: Áno, ale... greedy voľba zameraná na začiatok 
-    nie je tak dôležitá ako greedy voľba zameraná na koniec.
+
     """
     if not activities:
         return []
@@ -167,17 +117,12 @@ def interval_scheduling_earliest_start(activities):
 
 ---
 
-### Stratégia 3: Shortest Duration First (SDF) - SUBOPTIMÁLNA ✗
+### Stratégia 3: Shortest Duration First (SDF)
 
 ```python
 def interval_scheduling_shortest_duration(activities):
     """
-    GREEDY STRATÉGIA: Vyberieme aktivitu s najkratším trvaním.
-    
-    INTUÍCIA (NESPRÁVNA): "Skrátka trvajúce aktivity zaberajú menej času,
-                          takže budeme mať viac miesta na ostatné."
-    
-    PROTIPRÍKLAD: [(1,2), (1,10), (3,4)]
+    PRÍKLAD: [(1,2), (1,10), (3,4)]
         - SDF: (1,2) má trvanie 1, (3,4) má trvanie 1
           Vyberie (1,2), potom (3,4) = 2 aktivity
         - Ale (1,10) má trvanie 9, (1,2) samo = vyberie (1,2) = 1 aktivita
@@ -207,28 +152,21 @@ def interval_scheduling_shortest_duration(activities):
 
 ---
 
-### Stratégia 4: Random Order (RND) - WORST CASE ✗
+### Stratégia 4: Random Order (RND)
 
 ```python
 def interval_scheduling_random(activities, seed=42):
     """
-    GREEDY STRATÉGIA: Náhodný poriadok.
-    
     ÚČEL TEJTO STRATÉGIE:
     - Demonštrácia toho, čo sa stane, keď greedy voľba nie je inteligentná
     - Baseline pre porovnanie - "aspoň lepšie ako náhodné"
-    - Testing robustnosti kódu
     
-    WHY seed=42: 
-        Reprodukovateľnosť! Aby sme dostávali rovnaké výsledky pri 
-        každom spustení na testovanie a porovnávanie.
-    
-    OČAKÁVANÝ VÝKON: Hrôzny - zvyčajne oveľa menej aktivít ako EFT
+    VÝKON: Hrôzny - zvyčajne oveľa menej aktivít ako EFT
     """
     if not activities:
         return []
     
-    random.seed(seed)  # Reprodukovateľnosť
+    random.seed(seed)
     shuffled = activities.copy()  # Duplikát, aby sme nemodifikovali originál
     random.shuffle(shuffled)  # Náhodné premiešanie
     
@@ -268,29 +206,23 @@ def coin_change_greedy(coins, amount):
        - Opakovať
     3. Ak po skončení suma ≠ 0, vrátenie -1 (nemožné)
     
-    ČASOVÁ KOMPLEXNOSŤ: O(n * m), kde n = počet mincí, m = suma / min(mince)
-    PRIESTOROVÁ KOMPLEXNOSŤ: O(suma)
-    
     PROBLÉM - GREEDY NIE JE VŽDY OPTIMÁLNY:
     
     Príklad 1: coins=[1, 6, 10], amount=12
         - Greedy: 10 + 1 + 1 = 3 mince
-        - Optimálne: 6 + 6 = 2 mince ← SUBOPTIMÁLNE!
+        - Optimálne: 6 + 6 = 2 mince
     
     Príklad 2: coins=[1, 5, 6, 9], amount=11
         - Greedy: 9 + 1 + 1 = 3 mince
-        - Optimálne: 5 + 6 = 2 mince ← SUBOPTIMÁLNE!
+        - Optimálne: 5 + 6 = 2 mince
     
     Príklad 3: coins=[1, 3, 4], amount=6
         - Greedy: 4 + 1 + 1 = 3 mince
-        - Optimálne: 3 + 3 = 2 mince ← SUBOPTIMÁLNE!
+        - Optimálne: 3 + 3 = 2 mince
     
     ZÁVER: Greedy funguje len pre niektoré množiny mincí (napr. USD, EUR).
            Pre iné množiny je úplne nevhodný!
     
-    WHY TESTING THIS:
-    Klasická chyba v algoritmike - učitelia sa často spoliehajú na greedy,
-    ale bez formálneho dôkazu optimality. Tento projekt to ukazuje.
     """
     if amount == 0:
         return 0, []
@@ -321,7 +253,6 @@ def coin_change_dynamic_programming(coins, amount):
     """
     DYNAMIC PROGRAMMING RIEŠENIE - OPTIMÁLNE.
     
-    FILOZOFIA DP:
     - Rozbijeme problém na čiastkové problémy
     - Riešime každý čiastkový problém raz a ukladáme si výsledok
     - Kombinujeme čiastkové riešenia na vytvorenie celkového riešenia
@@ -354,12 +285,6 @@ def coin_change_dynamic_programming(coins, amount):
                         - V praxi rýchlejšie ako sa zdá
     PRIESTOROVÁ KOMPLEXNOSŤ: O(amount) na dp a parent polia
     
-    RECONSTRUKCIA RIEŠENIA:
-    Prechádzame parent pole od konca k začiatku:
-    - parent[amount] nám povie, ktorú mincu sme použili
-    - Odčítame a pokračujeme s parent[amount - coin]
-    - Opakujeme, dokiaľ sa nedostaneme na 0
-    """
     if amount == 0:
         return 0, []
     
@@ -406,16 +331,13 @@ def generate_interval_scheduling_dataset(num_activities, time_range, seed=42):
     - time_range: Časový rozsah [0, time_range]
     - seed: Reprodukovateľnosť
     
-    WHY seed: Aby sme dostávali rovnaké testy pri každom spustení.
-              Prínosy: porovnávanie, debugging, dokumentácia.
-    
     LOGIKA GENEROVANIA:
     1. Pre každú aktivitu: náhodný začiatok v rozsahu [0, time_range - 5]
     2. Náhodné trvanie: [1, min(10, time_range - start)]
     3. Koniec = začiatok + trvanie
     
     WHY "time_range - 5":
-    Chceme byť v bezpečí pred hraničnými prípadmi (off-by-one errors).
+    Chceme byť v bezpečí pred hraničnými prípadmi
     """
     random.seed(seed)
     activities = []
@@ -428,30 +350,28 @@ def generate_interval_scheduling_dataset(num_activities, time_range, seed=42):
 
 def generate_coin_change_datasets():
     """
-    Generuje množinu testovacích prípadov pre coin change.
-    
-    PREČO TIETO KONKRÉTNE PRÍKLADY:
-    
+    Množina testovacích prípadov pre coin change.
+
     1. [1,5,10,25], 63 - "US coins": 
-       Greedy funguje! (1 četvrťák + 1 päťdesiatka + ...)
+       Greedy funguje
     
     2. [1,2,5,10,20,50], 87 - "EU cents":
-       Greedy funguje optimálne pre eurá!
+       Greedy funguje optimálne pre eurá
     
     3. [1,5,10,25], 999 - "Large":
        Veľké číslo - meranie výkonu na väčších prípadoch
     
     4. [1,6,10], 12 - "6,10 sys":
-       KLASICKÝ FAIL GREEDY! Greedy=3 (10+1+1), Optimal=2 (6+6)
+       KLASICKÝ FAIL GREEDY, Greedy=3 (10+1+1), Optimal=2 (6+6)
     
     5. [1,5,6,9], 11 - "5,6,9 sys":
-       FAIL! Greedy=3 (9+1+1), Optimal=2 (5+6)
+       FAIL, Greedy=3 (9+1+1), Optimal=2 (5+6)
     
     6. [1,7,10], 14 - "7,10 sys":
        Zaujímavý prípad - test robustnosti
     
     7. [1,3,4], 6 - "3,4 sys":
-       FAIL! Greedy=3 (4+1+1), Optimal=2 (3+3)
+       FAIL, Greedy=3 (4+1+1), Optimal=2 (3+3)
     
     8. [1,5,10], 1 - "Small":
        Minimálny prípad - hraničný test
@@ -459,11 +379,7 @@ def generate_coin_change_datasets():
     9. [1,5,10,25,50], 100 - "Medium":
        Stredný prípad
     
-    VZOR:
-    - Prvý a posledný prípad: greedy funguje
-    - Rozličné konfigurácií v strede: kde greedy ZLYHÁVA
-    
-    WHY: Demonštrovať, že greedy nie je univerzálny!
+    ?: Demonštrujeme, že greedy nie je univerzálny!
     """
     return [
         ([1, 5, 10, 25], 63, "US coins"),
@@ -487,7 +403,7 @@ def run_interval_scheduling_experiments():
     """
     Porovnanie všetkých 4 stratégií na interval scheduling.
     
-    EXPERIMENT DESIGN:
+    EXPERIMENTY:
     - Testovanie na rôznych veľkostiach: 10, 20, 30, 50, 100 aktivít
     - Meranie: počet vybratých aktivít (kvalita) a čas (výkon)
     - Porovnanie stratégií
@@ -495,14 +411,13 @@ def run_interval_scheduling_experiments():
     METRIKY:
     1. count: Počet vybratých aktivít
        - Vyššie = lepšie (chceme viac aktivít)
-       - Optimálne riešenie: všetci si volia EFT
     
     2. time: Čas vykonania v ms
        - Nižšie = lepšie
        - Čakáme: O(n log n) pre všetky
     
     OČAKÁVANÉ VÝSLEDKY:
-    - EFT: Konzistentne najlepší v kvalite
+    - EFT: najlepší v kvalite
     - EST: Často horší
     - SDF: Nepredvídateľný
     - RND: Najhorší
@@ -527,11 +442,11 @@ def run_interval_scheduling_experiments():
         
         for strategy_name, strategy_func in strategies:
             # MERANIE ČASU
-            start_time = time.perf_counter()  # HIGH-PRECISION TIMER
+            start_time = time.perf_counter()
             selected = strategy_func(activities)
             exec_time = (time.perf_counter() - start_time) * 1000  # ms
             
-            # ZBIERAT VÝSLEDKOV
+            # ZBIERANIE VÝSLEDKOV
             results.append({
                 'size': size,
                 'strategy': strategy_name,
@@ -545,7 +460,7 @@ def run_interval_scheduling_experiments():
 ```python
 def run_coin_change_experiments():
     """
-    Podrobný experiment s coin change - greedy vs DP.
+    Experiment s coin change - greedy vs DP.
     
     EXPERIMENT DESIGN:
     - 9 testovacích prípadov s rôznymi množinami mincí
@@ -612,41 +527,9 @@ def run_coin_change_experiments():
 def plot_results(interval_results, coin_results):
     """
     Vytvára 6 grafov (2x3 grid) na analýzu výsledkov.
-    
-    GRAFY:
-    
-    [0,0] - Interval Scheduling: KVALITA (počet aktivít)
-            Línie pre každú stratégiu, os X = veľkosť datasetu
-            Čítame: Ktorá stratégia získava najviac aktivít?
-            Očakávanie: EFT = najvyšší
-    
-    [0,1] - Interval Scheduling: VÝKON (čas v ms)
-            Línie pre každú stratégiu
-            Čítame: Ktorá stratégia je najrýchlejšia?
-            Očakávanie: Všetky podobné (O(n log n))
-    
-    [0,2] - Interval Scheduling: OPTIMALITY RATE
-            Stĺpecové grafy - koľko krát z 5 testov bola stratégia optimal
-            Čítame: Ktorá stratégia je najčastejšie optimálna?
-            Očakávanie: EFT = 5/5, ostatní < 5
-    
-    [1,0] - Coin Change: KVALITA (počet mincí)
-            Porovnávanie greedy vs DP
-            Čítame: Aký je rozdiel v počte mincí?
-            Očakávanie: DP <= Greedy (DP je vždy lepší alebo rovný)
-    
-    [1,1] - Coin Change: VÝKON (čas v ms)
-            Porovnávanie greedy vs DP
-            Čítame: Ktorý je rýchlejší?
-            Očakávanie: Greedy rýchlejší (O(n*m) vs O(n*amount))
-    
-    [1,2] - PRÁZDNE - miesto na budúce rozšírenia
     """
     fig, axes = plt.subplots(2, 3, figsize=(15, 10))
     
-    # ============================================================
-    # INTERVAL SCHEDULING ANALÝZA
-    # ============================================================
     strategies = list(set(r['strategy'] for r in interval_results))
     sizes = sorted(set(r['size'] for r in interval_results))
     
@@ -671,7 +554,7 @@ def plot_results(interval_results, coin_results):
         axes[0, i].legend()
         axes[0, i].grid(True, alpha=0.3)
     
-    # GRAF 3: Optimality Rate - ako často každá stratégia dáva optimálne riešenie
+    # GRAF 3: ako často každá stratégia dáva optimálne riešenie
     optimal_counts = [
         sum(1 for size in sizes 
             if max(r['count'] for r in interval_results if r['size'] == size) ==
@@ -686,13 +569,8 @@ def plot_results(interval_results, coin_results):
     axes[0, 2].set_title('Interval Scheduling: Optimality Rate')
     axes[0, 2].set_ylim(0, len(sizes) + 0.5)
     
-    # Anotácie - zobrazenie počtov
     for i, v in enumerate(optimal_counts):
         axes[0, 2].text(i, v + 0.1, f'{v}/{len(sizes)}', ha='center', fontweight='bold')
-    
-    # ============================================================
-    # COIN CHANGE ANALÝZA
-    # ============================================================
     
     # Vyberieme len valídne výsledky (kde greedy_count nie je None)
     valid = [r for r in coin_results if r['greedy_count'] is not None]
@@ -720,7 +598,6 @@ def plot_results(interval_results, coin_results):
         axes[1, i].legend()
         axes[1, i].grid(True, alpha=0.3, axis='y')
     
-    # GRAF 6: Prázdny - pripravený na budúce analýzy
     axes[1, 2].axis('off')
     
     # Uloženie a zobrazenie
@@ -738,7 +615,6 @@ def main():
     """
     Hlavný program - spustenie všetkých experimentov.
     
-    WORKFLOW:
     1. Spustenie interval scheduling experimentov
     2. Spustenie coin change experimentov
     3. Vizualizácia všetkých výsledkov do jedného obrázka
@@ -751,40 +627,3 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-
----
-
-## Základné Závery
-
-### Interval Scheduling
-- **Earliest Finish Time (EFT)**: ✓ OPTIMÁLNE
-- **Earliest Start Time (EST)**: ✗ Horšie
-- **Shortest Duration (SDF)**: ✗ Nepredvídateľné
-- **Random**: ✗ NAJHORŠIE
-
-### Coin Change Problem
-- **Greedy**: ✗ Závisí na množine mincí
-  - Funguje: US mince, EUR mince
-  - ZLYHÁVA: [1,6,10], [1,5,6,9], [1,3,4]
-- **Dynamic Programming**: ✓ VŽDY OPTIMÁLNE
-
----
-
-## Kľúčové Poznatky Pre Študentov
-
-1. **Greedy nie je magická zbraň** - musíme dokázať, že funguje pre dané problémy
-2. **Lokálna optimálnosť ≠ Globálna optimálnosť** - časté chyby v praxe
-3. **Správny výber heurístiky je kritický** - rozdiel medzi dobrým a zlým riešením
-4. **DP vs Greedy tradeoff** - rýchlosť vs. správnosť
-
----
-
-## Ako Spustiť Kód
-
-```bash
-python3 main.py
-```
-
-Výstup:
-- Konzola: Výsledky experimentov
-- Súbor: `HI_HOP/results.png` - Grafy analýzy
