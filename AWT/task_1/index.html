@@ -139,7 +139,10 @@
           </div>
         </div>
       </div>
-
+      <section class="opinions-section">
+        <h2>User reviews</h2>
+        <div id="opinionsContainer"></div>
+      </section>
       <article class="opinion-container">
         <h2>Your opinion is important for us!</h2>
         <p>Please, use the form below to state your opinion about this page.</p>
@@ -195,11 +198,6 @@
       </article>
     </main>
 
-    <section>
-      <h2>Отзывы пользователей</h2>
-      <div id="opinionsContainer"></div>
-    </section>
-
     <footer>
       <p>
         &copy; Filip Fylyp
@@ -207,19 +205,20 @@
       </p>
     </footer>
 
-    <script id="opinionsTemplate" type="text/template">
-      <section style="border-left: 4px solid #FF1E00; padding: 15px; margin: 15px 0; background: #1a1a1a; border-radius: 5px;">
-        <h3 style="color: #FF1E00; margin-top: 0;">{{name}}</h3>
-        <p><strong>Email:</strong> {{email}}</p>
-        <p><strong>Любимая команда:</strong> {{teamDisplay}}</p>
-        <p><strong>Мнение:</strong> {{opinion}}</p>
-        <p style="font-size: 0.9em; color: #999;">
-            Дата: {{dateOnly}} | Вернётся: {{willReturnMessage}}
-        </p>
-      </section>
-    </script>
+  <script id="mTmplOneOpinion" type="text/template">
+    <section>
+      <h3>{{name}} <i>({{timestampDate}})</i></h3>
+      <p><b>Email:</b> {{email}}</p>
+      {{#imageUrlExists}}
+      <img src="{{imageUrl}}" alt="Avatar image" style="max-width:100px; border-radius:5px;">
+      {{/imageUrlExists}}
+      <p><b>Favorite Team:</b> {{favoriteTeamDisplay}}</p>
+      <p><b>Keywords:</b> {{keywordsDisplay}}</p>
+      <p><b>Comment:</b> {{opinion}}</p>
+      <p>{{willReturnMessage}}</p>
+    </section>
+  </script>
 
-    <script type="module" src="js/scripts.js"></script>
-
+  <script type="module" src="js/scripts.js"></script>
   </body>
 </html>

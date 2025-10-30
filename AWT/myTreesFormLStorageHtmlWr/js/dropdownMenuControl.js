@@ -24,7 +24,7 @@ export default class DropdownMenuControl {
      * displays or hides the html element with the items of the menu
      */
     displayOrHideMenu(){
-        this.menuItemsElm.classList.toggle(this.showCssClass);
+            this.menuItemsElm.classList.toggle(this.showCssClass);
     }
 
     /**

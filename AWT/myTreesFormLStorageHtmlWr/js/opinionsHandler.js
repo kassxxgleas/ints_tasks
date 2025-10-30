@@ -13,8 +13,11 @@ export default class OpinionsHandler {
      */
     constructor(opinionsFormElmId, opinionsListElmId){ //("opnFrm","opinionsContainer")
         this.opinions = [];
+
+        //TODO Add opinionsElm property, referencing the div with id given by the parameter opinionsListElmId
+        //TODO Add opinionsFrmElm property, referencing the form with id given by the parameter opinionsFormElmId
         this.opinionsElm = document.getElementById(opinionsListElmId);
-        this.opinionsFrmElm = document.getElementById("opnFrm");
+		this.opinionsFrmElm = document.getElementById("opnFrm");
     }
 
     /**
@@ -24,7 +27,11 @@ export default class OpinionsHandler {
         if (localStorage.myTreesComments) {
             this.opinions = JSON.parse(localStorage.myTreesComments);
         }
+
+        //TODO render opinions to html
         this.opinionsElm.innerHTML = this.opinionArray2html(this.opinions);
+
+
         this.opinionsFrmElm.addEventListener("submit", event => this.processOpnFrmData(event));
     }
 
@@ -39,6 +46,7 @@ export default class OpinionsHandler {
         //2. Read and adjust data from the form (here we remove white spaces before and after the strings)
         const nopName = this.opinionsFrmElm.elements["nameElm"].value.trim(); // this.opinionsFrmElm.elements["login"] can be used, too
         const nopOpn = this.opinionsFrmElm.elements["opnElm"].value.trim(); // this.opinionsFrmElm.elements["comment"] can be used, too
+        const nopWillReturn = this.opinionsFrmElm.elements["willReturnElm"].checked;
 
         //3. Verify the data
         if(nopName=="" || nopOpn==""){
@@ -51,6 +59,7 @@ export default class OpinionsHandler {
             {
                 name: nopName,
                 comment: nopOpn,
+                willReturn: nopWillReturn,
                 created: new Date()
             };
 
@@ -62,7 +71,9 @@ export default class OpinionsHandler {
 
 
         //4. Update HTML
+        //TODO add the new opinion to HTML
         this.opinionsElm.innerHTML+=this.opinion2html(newOpinion);
+
 
 
         //5. Reset the form
@@ -75,16 +86,15 @@ export default class OpinionsHandler {
      * @returns {string} - html code with the opinion
      */
     opinion2html(opinion){
-
+        //TODO finish opinion2html
         const opinionTemplate=
-            `
-                <section>
-                   <h3>${opinion.name} <i>(${(new Date(opinion.created)).toDateString()})</i></h3>
+		   `<section>
+			   <h3>${opinion.name} <i>(${(new Date(opinion.created)).toDateString()})</i></h3>
 
-                   <p>${opinion.comment}</p>
-                </section>`;
-
-        return opinionTemplate;
+			   <p>${opinion.comment}</p>
+			   <p>${opinion.willReturn?"I will return to this page.":"Sorry, one visit was enough."}</p>
+			</section>`;
+		return opinionTemplate;
     }
 
     /**
@@ -93,24 +103,13 @@ export default class OpinionsHandler {
      * @returns {string} - html code with all the opinions
      */
     opinionArray2html(sourceData){
-        return sourceData.reduce((htmlWithOpinions,opn) => htmlWithOpinions+ this.opinion2html(opn),"");  //"" is the initial value of htmlWithOpinions in reduce. If we do not use it, the first member of sourceData will not be processed correctly
+        //TODO finish opinionArray2html
+		let htmlWithOpinions="";
+		for(const opn of sourceData){
+			htmlWithOpinions += this.opinion2html(opn);
+		}
+		return htmlWithOpinions;
     }
-
-
-    /*
-    //an alternative version of the above method. Uses for ... of instead of reduce
-    opinionArray2html(sourceData){
-
-        let htmlWithOpinions="";
-
-        for(const opn of sourceData){
-            htmlWithOpinions += this.opinion2html(opn);
-        }
-
-        return htmlWithOpinions;
-    }
-    */
-
 
 }
 
