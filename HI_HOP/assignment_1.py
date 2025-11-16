@@ -110,7 +110,7 @@ def coin_change_dynamic_programming(coins, amount):
 # GENEROVANIE VSTUPNÝCH DÁT
 # ============================================================================
 
-def generate_interval_scheduling_dataset(num_activities, time_range, seed=42):
+def generate_interval_scheduling_dataset(num_activities, time_range, seed):
     random.seed(seed)
     activities = []
     for i in range(num_activities):
@@ -154,7 +154,7 @@ def run_interval_scheduling_experiments():
     
     for size in test_sizes:
         print(f"\nDataset: {size}")
-        activities = generate_interval_scheduling_dataset(size, size * 2, seed=size)
+        activities = generate_interval_scheduling_dataset(size, size * 2, seed=100)
         
         for strategy_name, strategy_func in strategies:
             start_time = time.perf_counter()

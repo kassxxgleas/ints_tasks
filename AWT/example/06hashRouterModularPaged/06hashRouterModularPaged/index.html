@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Stefan Korecko" />
+    <title>A parametrised hash rooter example</title>
+</head>
+<body>
+
+<header>
+    <h1>A parametrised hash rooter example</h1>
+</header>
+
+<nav>
+    <a href="#welcome">Welcome</a>
+    <a href="#main/1/10">Main Content</a>
+    <a href="#about">About me</a>
+</nav>
+
+<main id="router-view">
+
+
+</main>
+
+
+<!--Templates for dynamically inserted html-->
+
+<script id="template-welcome" type="text/template">
+    <h2>Welcome!</h2>
+    <p>
+        Welcome to my page!
+    </p>
+</script>
+
+<script id="template-about" type="text/template">
+    <h2>About me</h2>
+    <p>
+        My name is <i>Štefan Korečko.</i>
+        I created this demo for you to learn
+        about parametrised hash routers.
+    </p>
+</script>
+
+<script id="template-main" type="text/template">
+    <h2>Main Content</h2>
+    <p>
+        Displaying page {{currPage}} of {{pageCount}} pages.
+    </p>
+    <nav>
+        {{#prevPage}}
+        <a href="#main/{{prevPage}}/{{pageCount}}"><< Previous page</a>
+        {{/prevPage}}
+        {{#nextPage}}
+        <a href="#main/{{nextPage}}/{{pageCount}}">Next page >></a>
+        {{/nextPage}}
+    </nav>
+</script>
+
+<!--include mustache javascript-->
+<script  src="js/mustache.min.js"></script>
+
+<!--include javascript for this page-->
+<script  type="module" src="js/index.js"></script>
+
+</body>
+</html>
